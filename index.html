@@ -1,10 +1,9 @@
-html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>视频与3D模型展示平台</title>
+    <title>3D环绕视频展示平台</title>
     <!-- 引入 Model Viewer 用于预览 3D 模型 -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
@@ -165,8 +164,8 @@ html
 </head>
 <body>
     <header>
-        <h1>🎥 & 🧊 资源展示平台</h1>
-        <p class="subtitle">上传并在线预览您的视频和3D模型</p>
+        <h1>🏙️ 3D环绕视频展示</h1>
+        <p class="subtitle">沉浸式3D环绕视频作品集</p>
     </header>
 
     <div class="container">
@@ -185,32 +184,56 @@ html
 
         <!-- 媒体展示区 -->
         <section>
-            <h2>📁 我的资源</h2>
+            <h2>📁 我的3D环绕视频</h2>
             <div class="media-grid" id="media-container">
-                <!-- 示例视频 -->
+                <!-- 九龙湖3D环绕视频 -->
                 <div class="media-item">
                     <video controls>
-                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        <source src="https://raw.githubusercontent.com/zhangwei719/jm/main/G18%E4%B9%9D%E9%BE%99%E6%B9%963d%E7%8E%AF%E7%BB%95%EF%BC%88%E8%A3%81%E5%89%AA1%EF%BC%89%20-%20Trim%20-%20Trim.mp4" type="video/mp4">
                         您的浏览器不支持视频播放。
                     </video>
                     <div class="media-info">
-                        <h3>小兔子大冒险</h3>
-                        <p>类型: 视频 / 格式: MP4</p>
+                        <h3>九龙湖3D环绕</h3>
+                        <p>类型: 3D环绕视频 / 格式: MP4</p>
                         <button class="delete-btn">🗑️ 删除</button>
                     </div>
                 </div>
-                <!-- 示例3D模型 -->
+
+                <!-- 九龙湖单个楼3D精细化环绕 -->
                 <div class="media-item">
-                    <model-viewer 
-                        src="https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb" 
-                        alt="3D Duck Model"
-                        auto-rotate
-                        camera-controls
-                        style="width: 100%; height: 200px; background:#fafafa;">
-                    </model-viewer>
+                    <video controls>
+                        <source src="https://raw.githubusercontent.com/zhangwei719/jm/main/G18%E4%B9%9D%E9%BE%99%E6%B9%96%E5%8D%95%E4%B8%AA%E6%A5%BC3d%E7%B2%BE%E7%BB%86%E5%8C%96%E7%8E%AF%E7%BB%95%EF%BC%88%E8%A3%81%E5%89%AA1%EF%BC%89%20-%20Trim.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放。
+                    </video>
                     <div class="media-info">
-                        <h3>小黄鸭模型</h3>
-                        <p>类型: 3D模型 / 格式: GLB</p>
+                        <h3>九龙湖单个楼3D精细化环绕</h3>
+                        <p>类型: 3D环绕视频 / 格式: MP4</p>
+                        <button class="delete-btn">🗑️ 删除</button>
+                    </div>
+                </div>
+
+                <!-- 东山路3D环绕 -->
+                <div class="media-item">
+                    <video controls>
+                        <source src="https://raw.githubusercontent.com/zhangwei719/jm/main/G34%E4%B8%9C%E5%B1%B1%E8%B7%AF%203d%E7%8E%AF%E7%BB%95%EF%BC%88%E8%A3%81%E5%89%AA1%EF%BC%89%20-%20Trim.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放。
+                    </video>
+                    <div class="media-info">
+                        <h3>东山路3D环绕</h3>
+                        <p>类型: 3D环绕视频 / 格式: MP4</p>
+                        <button class="delete-btn">🗑️ 删除</button>
+                    </div>
+                </div>
+
+                <!-- 竹山路3D环绕 -->
+                <div class="media-item">
+                    <video controls>
+                        <source src="https://raw.githubusercontent.com/zhangwei719/jm/main/G39%E7%AB%B9%E5%B1%B1%E8%B7%AF3d%E7%8E%AF%E7%BB%95%EF%BC%88%E8%A3%81%E5%89%AA1%EF%BC%89%20-%20Trim.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放。
+                    </video>
+                    <div class="media-info">
+                        <h3>竹山路3D环绕</h3>
+                        <p>类型: 3D环绕视频 / 格式: MP4</p>
                         <button class="delete-btn">🗑️ 删除</button>
                     </div>
                 </div>
@@ -219,7 +242,7 @@ html
     </div>
 
     <footer>
-        &copy; 2024 视频与3D模型展示平台 | 使用 Web 技术构建，支持跨设备访问
+        &copy; 2024 3D环绕视频展示平台 | 使用 Web 技术构建，支持跨设备访问
     </footer>
 
     <script>
@@ -233,13 +256,13 @@ html
             
             // 收集页面上所有的作品
             document.querySelectorAll('.media-item').forEach(item => {
-                // 跳过示例作品（网络链接的）
+                // 跳过固定作品（GitHub链接的）
                 const videoSrc = item.querySelector('video source')?.src;
                 const modelSrc = item.querySelector('model-viewer')?.src;
                 
-                // 如果是网络示例，跳过不保存
-                if (videoSrc && (videoSrc.includes('gtv-videos-bucket') || videoSrc.includes('http'))) return;
-                if (modelSrc && (modelSrc.includes('github.com') || modelSrc.includes('http'))) return;
+                // 如果是GitHub固定视频，跳过不保存
+                if (videoSrc && videoSrc.includes('raw.githubusercontent.com')) return;
+                if (modelSrc && modelSrc.includes('github.com')) return;
                 
                 const title = item.querySelector('h3')?.textContent || '未命名作品';
                 const typeText = item.querySelector('p')?.textContent || '';
@@ -289,7 +312,7 @@ html
                 const noItemsMsg = mediaContainer.querySelector('.no-items');
                 if (noItemsMsg) noItemsMsg.remove();
                 
-                // 添加保存的作品（放在示例后面）
+                // 添加保存的作品（放在固定视频后面）
                 items.forEach(item => {
                     const mediaItem = document.createElement('div');
                     mediaItem.className = 'media-item';
@@ -341,10 +364,10 @@ html
                     const videoSrc = mediaItem.querySelector('video source')?.src;
                     const modelSrc = mediaItem.querySelector('model-viewer')?.src;
                     
-                    // 如果是示例作品，提示不能删除
-                    if ((videoSrc && videoSrc.includes('gtv-videos-bucket')) || 
+                    // 如果是固定作品，提示不能删除
+                    if ((videoSrc && videoSrc.includes('raw.githubusercontent.com')) || 
                         (modelSrc && modelSrc.includes('github.com'))) {
-                        alert('这是示例作品，不能删除哦！');
+                        alert('这是固定展示作品，不能删除哦！');
                         return;
                     }
                     
