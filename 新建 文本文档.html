@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>视频与3D模型展示平台</title>
+    <!-- 引入 Model Viewer 用于预览 3D 模型 -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            margin-top: 0.5rem;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .upload-section {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+        .upload-section h2 {
+            margin-bottom: 1.2rem;
+            color: #2c3e50;
+        }
+        .upload-btns {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        button, input[type="file"] {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        input[type="file"] {
+            background-color: #28a745;
+            color: white;
+            padding: 0.8rem 1.5rem;
+        }
+        input[type="file"]:hover {
+            background-color: #1e7e34;
+        }
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+        .media-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .media-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        model-viewer {
+            width: 100%;
+            height: 200px;
+            background: #f0f2f5;
+            border-bottom: 1px solid #eee;
+        }
+        .media-info {
+            padding: 1.2rem;
+        }
+        .media-info h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+        .media-info p {
+            margin: 0;
+            color: #777;
+            font-size: 0.95rem;
+        }
+        .no-items {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 3rem 1rem;
+            color: #888;
+            font-style: italic;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #ecf0f1;
+            color: #666;
+            margin-top: 3rem;
+        }
+        @media (max-width: 768px) {
+            .upload-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+            button, input[type="file"] {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎥 & 🧊 资源展示平台</h1>
+        <p class="subtitle">上传并在线预览您的视频和3D模型</p>
+    </header>
+
+    <div class="container">
+        <!-- 上传区域 -->
+        <section class="upload-section">
+            <h2>📤 上传资源</h2>
+            <div class="upload-btns">
+                <input type="file" id="video-upload" accept="video/*" multiple />
+                <input type="file" id="model-upload" accept=".glb,.gltf,.obj" multiple />
+            </div>
+            <button id="refresh-btn">🔄 刷新列表</button>
+        </section>
+
+        <!-- 媒体展示区 -->
+        <section>
+            <h2>📁 我的资源</h2>
+            <div class="media-grid" id="media-container">
+                <!-- 示例视频 -->
+                <div class="media-item">
+                    <video controls>
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放。
+                    </video>
+                    <div class="media-info">
+                        <h3>小兔子大冒险</h3>
+                        <p>类型: 视频 / 格式: MP4</p>
+                    </div>
+                </div>
+                <!-- 示例3D模型 -->
+                <div class="media-item">
+                    <model-viewer 
+                        src="https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF-Binary/Duck.glb" 
+                        alt="3D Duck Model"
+                        auto-rotate
+                        camera-controls
+                        style="width: 100%; height: 200px; background:#fafafa;">
+                    </model-viewer>
+                    <div class="media-info">
+                        <h3>小黄鸭模型</h3>
+                        <p>类型: 3D模型 / 格式: GLB</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        &copy; 2024 视频与3D模型展示平台 | 使用 Web 技术构建，支持跨设备访问
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoUpload = document.getElementById('video-upload');
+            const modelUpload = document.getElementById('model-upload');
+            const mediaContainer = document.getElementById('media-container');
+            const refreshBtn = document.getElementById('refresh-btn');
+
+            // 存储已添加的文件名，防止重复加载（演示用）
+            const addedFiles = new Set();
+
+            // 处理视频上传
+            videoUpload.addEventListener('change', function (e) {
+                Array.from(e.target.files).forEach(file => {
+                    if (addedFiles.has(file.name)) return;
+                    addedFiles.add(file.name);
+
+                    const reader = new FileReader();
+                    reader.onload = function (ev) {
+                        const fileName = file.name.replace(/\.[^/.]+$/, "");
+                        const fileFormat = file.name.split('.').pop().toUpperCase();
+
+                        const item = document.createElement('div');
+                        item.className = 'media-item';
+                        item.innerHTML = `
+                            <video controls>
+                                <source src="${ev.target.result}" type="video/${file.type.split('/')[1]}">
+                                您的浏览器不支持该视频格式。
+                            </video>
+                            <div class="media-info">
+                                <h3>${fileName}</h3>
+                                <p>类型: 视频 / 格式: ${fileFormat}</p>
+                            </div>
+                        `;
+                        mediaContainer.prepend(item);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            // 处理3D模型上传（仅 .glb / .gltf 支持预览）
+            modelUpload.addEventListener('change', function (e) {
+                Array.from(e.target.files).forEach(file => {
+                    if (addedFiles.has(file.name)) return;
+                    if (!['.glb', '.gltf'].includes('.' + file.name.split('.').pop().toLowerCase())) {
+                        alert(`⚠️ 文件 "${file.name}" 不是支持的3D模型格式（仅支持 .glb 和 .gltf）`);
+                        return;
+                    }
+
+                    addedFiles.add(file.name);
+
+                    const reader = new FileReader();
+                    reader.onload = function (ev) {
+                        const fileName = file.name.replace(/\.[^/.]+$/, "");
+                        const fileFormat = file.name.split('.').pop().toUpperCase();
+
+                        const item = document.createElement('div');
+                        item.className = 'media-item';
+
+                        // 将二进制数据转为 Blob URL
+                        const blob = new Blob([ev.target.result], { type: file.type });
+                        const url = URL.createObjectURL(blob);
+
+                        item.innerHTML = `
+                            <model-viewer 
+                                src="${url}" 
+                                alt="${fileName}"
+                                auto-rotate
+                                camera-controls
+                                style="width: 100%; height: 200px; background:#f5f7fa;">
+                            </model-viewer>
+                            <div class="media-info">
+                                <h3>${fileName}</h3>
+                                <p>类型: 3D模型 / 格式: ${fileFormat}</p>
+                            </div>
+                        `;
+                        mediaContainer.prepend(item);
+                    };
+                    reader.readAsArrayBuffer(file); // 读取为 ArrayBuffer 以支持二进制模型
+                });
+            });
+
+            // 刷新按钮
+            refreshBtn.addEventListener('click', function () {
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>
